@@ -1,6 +1,5 @@
-import requests
 import allure
-from data.urls import LOGIN_USER_URL
+from helpers.api_client import ApiClient
 
 class TestLoginUser:
     @allure.title("Успешный вход под существующим пользователем")
@@ -10,7 +9,7 @@ class TestLoginUser:
             "email": user_data["email"],
             "password": user_data["password"]
         }
-        response = requests.post(LOGIN_USER_URL, json=login_payload)
+        response = ApiClient.login_user(login_payload)
         assert response.status_code == 200
         assert response.json()["success"] is True
 
@@ -20,6 +19,6 @@ class TestLoginUser:
             "email": "invalid_user_test_999@test.com",
             "password": "wrongpassword123"
         }
-        response = requests.post(LOGIN_USER_URL, json=login_payload)
+        response = ApiClient.login_user(login_payload)
         assert response.status_code == 401
         assert response.json()["message"] == "email or password are incorrect"
