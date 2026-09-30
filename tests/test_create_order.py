@@ -41,4 +41,5 @@ class TestCreateOrder:
         response = ApiClient.create_order(payload)
 
         assert response.status_code == 500
-        assert response.text is not None
+        # Проверяем тело ответа (так как сервер возвращает HTML-страницу с ошибкой 500)
+        assert "Internal Server Error" in response.text
